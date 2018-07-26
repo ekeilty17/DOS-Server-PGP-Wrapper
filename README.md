@@ -8,7 +8,7 @@ First have a dos server running on `localhost:8080`. My implementation can be fo
 Then run this application as a normal java application. The classpath of the main file is `./src/main/java/com/dnastack/pgp/PGPWrapper.java`
 
 To see if it worked, execute:
-```
-curl http://localhost:8080/dataobjects
-curl http://localhost:8080/databundles
+```linux
+$ curl http://localhost:8080/dataobjects
+$ curl http://localhost:8080/databundles
 ```
