@@ -26,9 +26,9 @@ import com.google.gson.Gson;
 
 public class PGPWrapper 
 {
-	public static Set<List<String>> parseData(JSONArray content) {
+	public static List<List<String>> parseData(JSONArray content) {
 		
-		Set<List<String>> pgp_importantData = new HashSet<List<String>>();
+		List<List<String>> pgp_importantData = new ArrayList<List<String>>();
     	for (int i = 0; i < content.length(); i++) {
     		
     		JSONObject object = content.getJSONObject(i);
@@ -55,14 +55,14 @@ public class PGPWrapper
 		return pgp_importantData;
 	}
 	
-	public static Set<List<String>> getData(String url) throws IOException {
+	public static List<List<String>> getData(String url) throws IOException {
 		
 		// Getting Pagination information
     	String pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(url).openStream())).readLine();
     	int totalPages = new JSONObject(pgp_allFilesResults).getInt("totalPages");
     	
     	// Iterating through pages to load all data
-    	Set<List<String>> pgp_importantData = new HashSet<List<String>>();
+    	List<List<String>> pgp_importantData = new ArrayList<List<String>>();
     	for (int i = 0; i < totalPages; i++) {
     		pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(url + "?page=" + String.valueOf(i)).openStream())).readLine();
         	JSONObject pgp_allFilesJSON = new JSONObject(pgp_allFilesResults);
@@ -95,7 +95,7 @@ public class PGPWrapper
 		return response;
     }
 	
-	public static void postDataBundles(Set<List<String>> data, String url) throws ClientProtocolException, IOException {
+	public static void postDataBundles(List<List<String>> data, String url) throws ClientProtocolException, IOException {
 		
 		// Finding max id of participants
 		int max_participant = 0;
@@ -141,7 +141,7 @@ public class PGPWrapper
 	
 	public static void main( String[] args ) throws IOException
     {
-    	Set<List<String>> data = new HashSet<List<String>>();
+    	List<List<String>> data = new ArrayList<List<String>>();
     	data.addAll(getData("https://personalgenomes.ca/v1/public/files/"));
     	
 		data.forEach(d -> {
