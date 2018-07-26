@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import lombok.Data;
 
 @Data
@@ -43,24 +45,24 @@ public class Ga4ghDataObject {
 		this.aliases = aliases;
 	}
 	
-	public Ga4ghDataObject(List<String> pgp_data) {
+	public Ga4ghDataObject(JSONObject pgp_data) {
 		
-		this.id = pgp_data.get(0);
-		this.name = pgp_data.get(1);
-		this.size = pgp_data.get(2);
-		this.mimeType = pgp_data.get(3);
-		this.created = pgp_data.get(5);
+		this.id = String.valueOf(pgp_data.getInt("id"));
+		this.name = pgp_data.getString("filename");
+		this.size = String.valueOf(pgp_data.getLong("fileSize"));
+		this.mimeType = pgp_data.getString("fileType");
+		this.created = pgp_data.getString("createdAt");
 		
-		if (pgp_data.size() == 7) {
-			this.updated = pgp_data.get(6);
+		if (pgp_data.has("lastModificationAt")) {
+			this.updated = pgp_data.getString("lastModificationAt");
 		} else {
-			this.updated = pgp_data.get(5);
+			this.updated = pgp_data.getString("createdAt");
 		}
 		
 		Map<String, String> system_metadata = new HashMap<String, String>();
 		Map<String, String> user_metadata = new HashMap<String, String>();
-		user_metadata.put("participant", pgp_data.get(4));
-		this.urls = new ArrayList<URL>(Arrays.asList(new URL("https://personalgenomes.ca/v1/public/files/" + pgp_data.get(0) + "/download", system_metadata, user_metadata)));
+		user_metadata.put("participant", pgp_data.getJSONObject("participant").toString());
+		this.urls = new ArrayList<URL>(Arrays.asList(new URL("https://personalgenomes.ca/v1/public/files/" + String.valueOf(pgp_data.getInt("id")) + "/download", system_metadata, user_metadata)));
 		
 		this.version = "1.0.0";
 		this.checksums = new ArrayList<Checksum>();

@@ -7,7 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>pgp</name>
+  <name>DOS-Server-PGP-Wrapper</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -49,13 +49,6 @@
 	  <artifactId>httpclient</artifactId>
 	  <version>4.5.6</version>
 	</dependency>
-
-	<dependency>
-	  <groupId>joda-time</groupId>
-	  <artifactId>joda-time</artifactId>
-	  <version>2.10</version>
-	</dependency>
-	
 
   </dependencies>
 </project>
