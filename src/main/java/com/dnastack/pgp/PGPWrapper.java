@@ -31,7 +31,7 @@ public class PGPWrapper
     {
     	PGPHttp pgpHttp = new PGPHttp();
 		
-		JSONArray allData = pgpHttp.getData("https://personalgenomes.ca/v1/public/files/");
+		JSONArray allData = pgpHttp.getData();
 		pgpHttp.postDataObjects(allData, "http://localhost:8080/dataobjects");
 		System.out.println("Number of elements added: " + allData.length() + "\n\n");
 		

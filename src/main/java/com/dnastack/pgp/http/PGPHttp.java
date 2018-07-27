@@ -21,6 +21,8 @@ import com.google.gson.Gson;
 
 public class PGPHttp {
 	
+	private String url = "https://personalgenomes.ca/v1/public/files/";
+	
 	// Only reason this is necessary is because the PGP data has this strange
 	// "additionalFiles" field that contains other data objects
 	public JSONArray flattenData(JSONArray content) {
@@ -42,17 +44,17 @@ public class PGPHttp {
     	return pgp_flattened;
 	}
 	
-	public JSONArray getData(String url) throws IOException {
+	public JSONArray getData() throws IOException {
 		
 		// Getting Pagination information
-    	String pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(url).openStream())).readLine();
+    	String pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(this.url).openStream())).readLine();
     	int totalPages = new JSONObject(pgp_allFilesResults).getInt("totalPages");
     	
     	// Iterating through pages to load all data
     	JSONArray pgp_allData = new JSONArray();
     	for (int i = 0; i < totalPages; i++) {
     		// Getting JSON Array of objects
-    		pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(url + "?page=" + String.valueOf(i)).openStream())).readLine();
+    		pgp_allFilesResults = new BufferedReader(new InputStreamReader(new URL(this.url + "?page=" + String.valueOf(i)).openStream())).readLine();
         	JSONObject pgp_allFilesJSON = new JSONObject(pgp_allFilesResults);
         	JSONArray pgp_allFilesContents = pgp_allFilesJSON.getJSONArray("content");
         	
@@ -72,11 +74,11 @@ public class PGPHttp {
     	return pgp_allData;
 	}
 	
-	public void postDataObjects(JSONArray allData, String url) throws ClientProtocolException, IOException {
+	public void postDataObjects(JSONArray allData, String postUrl) throws ClientProtocolException, IOException {
     	
     	for (int i = 0; i < allData.length(); i++) {
     		HttpClient httpClient = HttpClientBuilder.create().build();
-    		HttpPost post = new HttpPost(url);
+    		HttpPost post = new HttpPost(postUrl);
     		
     		Gson gson = new Gson();
     		String json = gson.toJson(new Ga4ghDataObject(allData.getJSONObject(i)));
@@ -90,7 +92,7 @@ public class PGPHttp {
     	System.out.println('\n');
     }
 	
-	public void postDataBundles(JSONArray allData, String url) throws ClientProtocolException, IOException {
+	public void postDataBundles(JSONArray allData, String postUrl) throws ClientProtocolException, IOException {
 		
 		// Finding max id of participants
 		int max_participant = 0;
@@ -125,7 +127,7 @@ public class PGPHttp {
 				//System.out.println(json);
 				
 				HttpClient httpClient = HttpClientBuilder.create().build();
-				HttpPost post = new HttpPost(url);
+				HttpPost post = new HttpPost(postUrl);
 				post.setEntity(new StringEntity(json));
 				post.setHeader("Content-type", "application/json");
 				httpClient.execute(post);
