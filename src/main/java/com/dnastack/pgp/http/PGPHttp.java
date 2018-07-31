@@ -1,5 +1,10 @@
 package com.dnastack.pgp.http;
 
+import com.dnastack.pgp.model.Ga4ghDataBundle;
+import com.dnastack.pgp.model.Ga4ghDataObject;
+
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +20,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.dnastack.pgp.model.Ga4ghDataBundle;
-import com.dnastack.pgp.model.Ga4ghDataObject;
-import com.google.gson.Gson;
 
 public class PGPHttp {
 	
