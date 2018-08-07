@@ -1,7 +1,7 @@
 # DOS-Server-PGP-Wrapper
 Uploads public PGP Canada Data to a DOS Server
 
-## Run
+## Usage
 
 First have a dos server running on `localhost:8080`. My implementation can be found [here](https://github.com/ekeilty17/GA4GH-DOS-Server).
 
